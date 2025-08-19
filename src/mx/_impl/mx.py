@@ -15368,6 +15368,13 @@ def pylint(args):
         return -1
     major, minor, micro = (int(m.group(1)), int(m.group(2)), int(m.group(3)))
     log(f"Detected pylint version: {major}.{minor}.{micro}")
+
+    m = re.search(r'^Python (.*)', output, re.MULTILINE)
+    if m:
+        log(f"Detected python version: {m.group(0)}")
+    else:
+        warn('could not determine python version from ' + output)
+
     ver = (major, minor)
     if ver not in pylint_ver_map:
         log_error(f'pylint version must be one of {list(pylint_ver_map.keys())} (got {major}.{minor}.{micro})')
